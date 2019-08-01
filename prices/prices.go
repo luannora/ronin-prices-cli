@@ -111,18 +111,18 @@ func (p *PricesInput) GetCurrenciesQuotes(symbol, convert string) ([]Quote, erro
 	return quotes[0].Quotes, nil
 }
 
-//GetSources get currency full return
-func (p *PricesInput) GetSources() (RoninPricesResp, error) {
+//GetSources get sources stats
+func (p *PricesInput) GetSources() (Sources, error) {
 	url := fmt.Sprintf("%s/sources", p.APIEndpoint)
 	body, err := GetRequest(p.HTTPClient, url, p.APIToken)
 	if err != nil {
 		log.Printf("Could not make request: %s", err.Error())
-		return RoninPricesResp{}, err
+		return Sources{}, err
 	}
-	var resp RoninPricesResp
+	var resp Sources
 	if err := json.Unmarshal(body, &resp); err != nil {
 		log.Printf("Error unmarshal: %s", err.Error())
-		return RoninPricesResp{}, err
+		return Sources{}, err
 	}
 	return resp, nil
 }

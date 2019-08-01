@@ -24,6 +24,13 @@ type Quote struct {
 	Symbol  string `json:"symbol"`
 }
 
+type Sources struct {
+	Binance        bool `json:"binance"`
+	Blue           bool `json:"blue"`
+	CoinMarketCap  bool `json:"coinmarketcap"`
+	Stratum  	   bool `json:"stratum"`
+}
+
 type ErrorMessage struct {
 	Message string `json:"message"`
 }
