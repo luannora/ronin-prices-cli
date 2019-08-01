@@ -25,6 +25,10 @@ type Quote struct {
 }
 
 type Sources struct {
+	Sources Source `json:"sources"`
+}
+
+type Source struct {
 	Binance        bool `json:"binance"`
 	Blue           bool `json:"blue"`
 	CoinMarketCap  bool `json:"coinmarketcap"`

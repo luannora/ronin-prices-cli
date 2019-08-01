@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -112,19 +113,23 @@ func (p *PricesInput) GetCurrenciesQuotes(symbol, convert string) ([]Quote, erro
 }
 
 //GetSources get sources stats
-func (p *PricesInput) GetSources() (Sources, error) {
+func (p *PricesInput) GetSources() (Source, error) {
 	url := fmt.Sprintf("%s/sources", p.APIEndpoint)
 	body, err := GetRequest(p.HTTPClient, url, p.APIToken)
 	if err != nil {
 		log.Printf("Could not make request: %s", err.Error())
-		return Sources{}, err
+		return Source{}, err
 	}
+
+	bodyJson, _ := strconv.Unquote(strings.Replace(string(body), "\n", "", -1))
+
 	var resp Sources
-	if err := json.Unmarshal(body, &resp); err != nil {
+	if err := json.Unmarshal([]byte(bodyJson), &resp); err != nil {
 		log.Printf("Error unmarshal: %s", err.Error())
-		return Sources{}, err
+		return Source{}, err
 	}
-	return resp, nil
+
+	return resp.Sources, nil
 }
 
 //GetRequest general get request with x-token on header
